@@ -135,10 +135,10 @@ python run_inference.py
 
 ## 8. Authors and Contact
 
-- **Nguyet Do Anh** (Lead Author) — `doanhnguyet@tnus.edu.vn`
+- **Nguyet Do Anh** (Lead Author) 
 - **Anh Duong Thi Ngoc** (Co-Author)
 - **Chung Tran Quang** (Co-Author)
-- **Phuong Pham Ngoc\*** (Corresponding Author) — `phuongpn@tnus.edu.vn`
+- **Phuong Pham Ngoc\*** (Corresponding Author)
 
 **Affiliation:** Department of Mathematics and Informatics, Thai Nguyen University of Sciences (TNUS), Thai Nguyen, Vietnam.
 
