@@ -1,0 +1,10 @@
+# Pinned environment — from pip freeze on NVIDIA RTX 3060, CUDA 12.4, Python 3.11
+torch==2.5.1
+torchaudio==2.5.1
+transformers==5.17.0
+accelerate==1.15.0
+peft==0.21.0
+soundfile==0.14.0
+scipy==1.17.1
+numpy==2.4.6
+# OmniVoice installed from git (pinned commit 08be0b4ccbac3e13e374e86fbfead4b4cac343e2)
