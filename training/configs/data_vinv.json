@@ -1,0 +1,12 @@
+{
+    "train": [
+        {
+            "manifest_path": ["data/omnivoice/tokens/train/data.lst"]
+        }
+    ],
+    "dev": [
+        {
+            "manifest_path": ["data/omnivoice/tokens/dev/data.lst"]
+        }
+    ]
+}

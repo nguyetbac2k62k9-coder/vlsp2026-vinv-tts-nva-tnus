@@ -36,6 +36,14 @@ The system adapts **OmniVoice** — a discrete masked diffusion TTS model with a
 ├── Dockerfile                   # Docker container definition (pinned dependencies)
 ├── run_inference.py             # Main batch inference engine (supports Docker & native Conda)
 ├── requirements.txt             # Pinned Python dependencies
+├── training/                    # Complete Training & Fine-Tuning Pipeline
+│   ├── prepare_data.py          # Data manifest preparation script
+│   ├── run_omni_vinv.sh         # End-to-end training pipeline (Tokenize -> LoRA train)
+│   ├── run_omni_pipeline.py     # Cross-platform Python pipeline runner
+│   ├── configs/
+│   │   ├── train_vinv_lora.json # LoRA hyperparameters (r=16, alpha=32, 2,500 steps)
+│   │   └── data_vinv.json       # Shard data manifest config
+│   └── README.md                # Detailed training instructions
 ├── models/
 │   ├── omnivoice_base/          # Pretrained OmniVoice base weights (~4.9 GB)
 │   └── checkpoint-2500/         # LoRA adapter weights (~190 MB, 2,500 fine-tuning steps)
@@ -63,7 +71,7 @@ snapshot_download('nva-tnus/omnivoice-vinv-tts-checkpoint-2500', local_dir='mode
 
 ### Option B: Google Drive Archive
 
-Download the archive from: `[INSERT GOOGLE DRIVE LINK HERE]`  
+Download the archive / models from: https://drive.google.com/drive/folders/1BkOTbSgQeoydhAF_OqRQ6yeMJTlVhwse  
 Extract into `models/` such that:
 - `models/omnivoice_base/config.json`
 - `models/checkpoint-2500/adapter_config.json`
@@ -115,7 +123,27 @@ python run_inference.py
 
 ---
 
-## 6. Software & Hardware Environment
+## 6. Training & Fine-Tuning Pipeline
+
+To reproduce model training from the raw ViNV-TTS dataset to `checkpoint-2500` (matching Section 4.3 of our paper):
+
+```bash
+# 1. Prepare data manifests (generates data/omnivoice/train.jsonl and dev.jsonl)
+python training/prepare_data.py
+
+# 2. Run end-to-end training pipeline
+# Stage 0: Tokenize audio with Higgs Audio v2 -> Stage 1: LoRA Fine-Tuning (2,500 steps)
+bash training/run_omni_vinv.sh
+
+# Or execute cross-platform via Python runner:
+python training/run_omni_pipeline.py 0 1
+```
+
+All hyperparameters (LoRA rank $r=16, \alpha=32$, learning rate $1\times 10^{-4}$, warmup, cosine scheduler) are defined in `training/configs/train_vinv_lora.json`. For more details, see `training/README.md`.
+
+---
+
+## 7. Software & Hardware Environment
 
 - **Hardware:** NVIDIA GeForce RTX 3060 (12 GB VRAM)
 - **CUDA Runtime:** 12.4
@@ -126,16 +154,16 @@ python run_inference.py
 
 ---
 
-## 7. License & Ethical Disclaimer
+## 8. License & Ethical Disclaimer
 
 - **Base Model License:** Pre-trained OmniVoice base checkpoint is distributed under the Creative Commons Attribution-NonCommercial (CC-BY-NC 4.0) license.
 - **Usage:** This software and adapted model weights are provided strictly for academic research within the VLSP 2026 ViNV-TTS Shared Task. Commercial use, voice spoofing, and unauthorized voice cloning are strictly prohibited.
 
 ---
 
-## 8. Authors and Contact
+## 9. Authors and Contact
 
-- **Nguyet Do Anh** (Lead Author) 
+- **Nguyet Do Anh** (Lead Author)
 - **Anh Duong Thi Ngoc** (Co-Author)
 - **Chung Tran Quang** (Co-Author)
 - **Phuong Pham Ngoc\*** (Corresponding Author)
@@ -144,7 +172,7 @@ python run_inference.py
 
 ---
 
-## 9. Citation
+## 10. Citation
 
 If you find this work or codebase helpful in your research, please cite our technical report:
 
