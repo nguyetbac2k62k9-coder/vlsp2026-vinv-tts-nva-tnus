@@ -24,7 +24,8 @@ def prepare_omnivoice_and_vits():
             continue
 
         json_files = sorted(list(split_dir.glob("spk_*/*.json")))
-        print(f"Processing split '{split}': Found {len(json_files)} speaker JSON files.")
+        unique_spks = sorted(list(set(jf.parent.name for jf in json_files)))
+        print(f"Processing split '{split}': Found {len(json_files)} JSON files across {len(unique_spks)} speakers.")
 
         omni_records = []
         vits_records = []
@@ -43,6 +44,8 @@ def prepare_omnivoice_and_vits():
 
             for item in items:
                 audio_rel = item.get("audio")
+                if not audio_rel:
+                    continue
                 audio_path = (jf.parent / audio_rel).resolve().as_posix()
                 text = item.get("text", "").strip()
                 lang = item.get("language_id", "vi")
@@ -80,7 +83,7 @@ def prepare_omnivoice_and_vits():
                 f.write(line + "\n")
 
         stats[split] = {
-            "speakers": len(json_files),
+            "speakers": len(unique_spks),
             "samples": total_audio,
             "omni_manifest": str(omni_out_path),
             "vits_manifest": str(vits_out_path),

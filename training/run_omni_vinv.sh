@@ -29,7 +29,9 @@ DATA_CONFIG="configs/data_vinv.json"
 # Thư mục lưu checkpoint sau khi train
 OUTPUT_DIR="exp/omnivoice_vinv_lora"
 
-export PYTHONPATH="$(pwd)/OmniVoice:${PYTHONPATH:-}"
+if [ -d "OmniVoice" ]; then
+    export PYTHONPATH="$(pwd)/OmniVoice:${PYTHONPATH:-}"
+fi
 
 # Giai đoạn 0: Trích xuất Audio Codec Tokens thành WebDataset shards
 if [ $stage -le 0 ] && [ $stop_stage -ge 0 ]; then

@@ -15,12 +15,13 @@ def main():
     base_dir = Path(__file__).resolve().parent
     omni_repo = base_dir / "OmniVoice"
     
-    # Setup PYTHONPATH
+    # Setup PYTHONPATH if local clone exists, otherwise rely on installed package
     current_env = os.environ.copy()
-    pythonpath = str(omni_repo)
-    if "PYTHONPATH" in current_env:
-        pythonpath += os.pathsep + current_env["PYTHONPATH"]
-    current_env["PYTHONPATH"] = pythonpath
+    if omni_repo.exists():
+        pythonpath = str(omni_repo)
+        if "PYTHONPATH" in current_env:
+            pythonpath += os.pathsep + current_env["PYTHONPATH"]
+        current_env["PYTHONPATH"] = pythonpath
 
     stage = int(sys.argv[1]) if len(sys.argv) > 1 else 0
     stop_stage = int(sys.argv[2]) if len(sys.argv) > 2 else 1
@@ -56,7 +57,7 @@ def main():
                 "--tar_output_pattern", tar_pattern,
                 "--jsonl_output_pattern", jsonl_pattern,
                 "--tokenizer_path", tokenizer_path,
-                "--nj_per_gpu", "1",
+                "--nj_per_gpu", "2",
                 "--shuffle", "True"
             ]
             run_command(cmd, env=current_env)
