@@ -25,21 +25,22 @@
     "lora_modules_to_save": ["audio_embeddings", "audio_heads"],
 
     "learning_rate": 1e-4,
+    "lr_scheduler_type": "cosine",
     "weight_decay": 0.01,
     "max_grad_norm": 1.0,
-    "steps": 3000,
+    "steps": 2500,
     "seed": 42,
-    "warmup_type": "ratio",
+    "warmup_type": "steps",
+    "warmup_steps": 50,
     "warmup_ratio": 0.02,
-    "warmup_steps": 0,
 
     "attn_implementation": "sdpa",
     "max_sample_tokens": 2000,
     "min_sample_tokens": 50,
     "max_batch_size": 32,
 
-    "batch_tokens": 4096,
-    "gradient_accumulation_steps": 2,
+    "batch_tokens": 768,
+    "gradient_accumulation_steps": 12,
     "num_workers": 2,
 
     "mixed_precision": "bf16",
@@ -47,6 +48,6 @@
 
     "logging_steps": 25,
     "eval_steps": 250,
-    "save_steps": 250,
+    "save_steps": 500,
     "keep_last_n_checkpoints": 5
 }
